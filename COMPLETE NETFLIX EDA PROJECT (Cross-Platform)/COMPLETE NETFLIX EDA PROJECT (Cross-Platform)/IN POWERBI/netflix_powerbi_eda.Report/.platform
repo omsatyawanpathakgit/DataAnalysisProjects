@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "netflix_powerbi_eda"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "761456ee-56b4-4a26-8a49-b7f254672d5b"
+  }
+}
