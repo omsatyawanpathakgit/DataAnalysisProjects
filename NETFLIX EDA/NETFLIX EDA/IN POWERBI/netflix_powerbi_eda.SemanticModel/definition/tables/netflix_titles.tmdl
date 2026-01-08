@@ -1,0 +1,172 @@
+table netflix_titles
+	lineageTag: ec6736a9-b494-41fc-8528-f05fe2856c2c
+
+	measure 'Total Titles' = COUNTROWS(netflix_titles)
+		formatString: 0
+		lineageTag: 3c98fdc0-0688-4a10-905f-32f06a5bf1b4
+
+	measure 'Total Movies' = CALCULATE(COUNTROWS(netflix_titles), netflix_titles[type] = "Movie")
+		formatString: 0
+		lineageTag: 241ebb5c-c8f5-446e-bb63-73a32c11813f
+
+	measure 'Total TV Shows' = CALCULATE(COUNTROWS(netflix_titles), netflix_titles[type] = "TV Show")
+		formatString: 0
+		lineageTag: 858e65e2-b939-4ced-92c3-498afb6babd9
+
+	measure 'Titles Per Year' = COUNT(netflix_titles[show_id])
+		formatString: 0
+		lineageTag: afc4818c-a217-4355-85bf-dfad652ada34
+
+	column show_id
+		dataType: int64
+		formatString: 0
+		lineageTag: df90f732-cf5f-4ea7-907f-0685af0a297e
+		summarizeBy: sum
+		sourceColumn: show_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column type
+		dataType: string
+		lineageTag: 094ba49b-94ee-4bcc-a946-4c187a4d63da
+		summarizeBy: none
+		sourceColumn: type
+
+		annotation SummarizationSetBy = Automatic
+
+	column title
+		dataType: string
+		lineageTag: 057f3a71-502f-41af-91d4-566bc801ff79
+		summarizeBy: none
+		sourceColumn: title
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_added
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 063a99f8-c2ad-4f9d-9434-4231dfa6c6c0
+		summarizeBy: none
+		sourceColumn: date_added
+
+		variation Variation
+			isDefault
+			relationship: f727b547-9233-4c71-8f46-06fe2585bbc9
+			defaultHierarchy: LocalDateTable_8241c0c6-842e-4cc4-a48e-a345b6a4c042.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column release_year
+		dataType: int64
+		formatString: 0
+		lineageTag: 6989e1e7-bd08-4ba5-aa9d-74d288275832
+		summarizeBy: sum
+		sourceColumn: release_year
+
+		annotation SummarizationSetBy = Automatic
+
+	column rating
+		dataType: string
+		lineageTag: 2492d325-1c05-4c73-a21f-f86729afd2da
+		summarizeBy: none
+		sourceColumn: rating
+
+		annotation SummarizationSetBy = Automatic
+
+	column description
+		dataType: string
+		lineageTag: 45f0352c-da66-420a-a3ff-6bcd7b007a91
+		summarizeBy: none
+		sourceColumn: description
+
+		annotation SummarizationSetBy = Automatic
+
+	column director
+		dataType: string
+		lineageTag: 49e14927-37ee-4dc6-a593-ca66c0c92317
+		summarizeBy: none
+		sourceColumn: director
+
+		annotation SummarizationSetBy = Automatic
+
+	column cast
+		dataType: string
+		lineageTag: d39f248e-6f08-49bd-881f-db7ad2352e1f
+		summarizeBy: none
+		sourceColumn: cast
+
+		annotation SummarizationSetBy = Automatic
+
+	column country
+		dataType: string
+		lineageTag: 4b2da819-3e4d-4a87-a9cd-4683f2587bd2
+		summarizeBy: none
+		sourceColumn: country
+
+		annotation SummarizationSetBy = Automatic
+
+	column duration
+		dataType: int64
+		formatString: 0
+		lineageTag: 4d8e7696-2fdb-42a8-855d-e8b36952f8cf
+		summarizeBy: sum
+		sourceColumn: duration
+
+		annotation SummarizationSetBy = Automatic
+
+	column duration_type
+		dataType: string
+		lineageTag: e68acb6a-17a2-4006-aede-23387123e737
+		summarizeBy: none
+		sourceColumn: duration_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column listed_in
+		dataType: string
+		lineageTag: 13d1372f-4e12-4655-a648-9d51267efc3a
+		summarizeBy: none
+		sourceColumn: listed_in
+
+		annotation SummarizationSetBy = Automatic
+
+	partition netflix_titles = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\Lenovo\Desktop\SELF\NEW NETFLIX EDA\IN POWERBI\netflix_titles.csv"),[Delimiter=",", Columns=12, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"show_id", Int64.Type}, {"type", type text}, {"title", type text}, {"director", type text}, {"cast", type text}, {"country", type text}, {"date_added", type date}, {"release_year", Int64.Type}, {"rating", type text}, {"duration", type text}, {"listed_in", type text}, {"description", type text}}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Changed Type","","No director",Replacer.ReplaceValue,{"director"}),
+				    #"Split Column by Delimiter" = Table.SplitColumn(#"Replaced Value", "director", Splitter.SplitTextByDelimiter(",", QuoteStyle.Csv), {"director.1", "director.2", "director.3", "director.4", "director.5", "director.6", "director.7", "director.8", "director.9", "director.10"}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Split Column by Delimiter",{{"director.1", type text}, {"director.2", type text}, {"director.3", type text}, {"director.4", type text}, {"director.5", type text}, {"director.6", type text}, {"director.7", type text}, {"director.8", type text}, {"director.9", type text}, {"director.10", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type1",{"director.2", "director.3", "director.4", "director.5", "director.6", "director.7", "director.8", "director.9", "director.10"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Columns",{{"director.1", "director"}}),
+				    #"Split Column by Delimiter1" = Table.SplitColumn(#"Renamed Columns", "cast", Splitter.SplitTextByDelimiter(",", QuoteStyle.Csv), {"cast.1", "cast.2", "cast.3", "cast.4", "cast.5", "cast.6", "cast.7", "cast.8", "cast.9", "cast.10", "cast.11", "cast.12", "cast.13", "cast.14", "cast.15", "cast.16"}),
+				    #"Changed Type2" = Table.TransformColumnTypes(#"Split Column by Delimiter1",{{"cast.1", type text}, {"cast.2", type text}, {"cast.3", type text}, {"cast.4", type text}, {"cast.5", type text}, {"cast.6", type text}, {"cast.7", type text}, {"cast.8", type text}, {"cast.9", type text}, {"cast.10", type text}, {"cast.11", type text}, {"cast.12", type text}, {"cast.13", type text}, {"cast.14", type text}, {"cast.15", type text}, {"cast.16", type text}}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Changed Type2",{{"cast.1", "cast"}}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Renamed Columns1","","No cast",Replacer.ReplaceValue,{"cast"}),
+				    #"Removed Columns1" = Table.RemoveColumns(#"Replaced Value1",{"cast.2", "cast.3", "cast.4", "cast.5", "cast.6", "cast.7", "cast.8", "cast.9", "cast.10", "cast.11", "cast.12", "cast.13", "cast.14", "cast.15", "cast.16"}),
+				    #"Replaced Value2" = Table.ReplaceValue(#"Removed Columns1","","No country",Replacer.ReplaceValue,{"country"}),
+				    #"Split Column by Delimiter2" = Table.SplitColumn(#"Replaced Value2", "country", Splitter.SplitTextByDelimiter(",", QuoteStyle.Csv), {"country.1", "country.2", "country.3", "country.4", "country.5"}),
+				    #"Changed Type3" = Table.TransformColumnTypes(#"Split Column by Delimiter2",{{"country.1", type text}, {"country.2", type text}, {"country.3", type text}, {"country.4", type text}, {"country.5", type text}}),
+				    #"Removed Columns2" = Table.RemoveColumns(#"Changed Type3",{"country.2", "country.3", "country.4", "country.5"}),
+				    #"Renamed Columns2" = Table.RenameColumns(#"Removed Columns2",{{"country.1", "country"}}),
+				    #"Replaced Value3" = Table.ReplaceValue(#"Renamed Columns2","","No rating",Replacer.ReplaceValue,{"rating"}),
+				    #"Split Column by Delimiter3" = Table.SplitColumn(#"Replaced Value3", "duration", Splitter.SplitTextByDelimiter(" ", QuoteStyle.Csv), {"duration.1", "duration.2"}),
+				    #"Changed Type4" = Table.TransformColumnTypes(#"Split Column by Delimiter3",{{"duration.1", Int64.Type}, {"duration.2", type text}}),
+				    #"Renamed Columns3" = Table.RenameColumns(#"Changed Type4",{{"duration.2", "duration_type"}}),
+				    #"Split Column by Delimiter4" = Table.SplitColumn(#"Renamed Columns3", "listed_in", Splitter.SplitTextByDelimiter(",", QuoteStyle.Csv), {"listed_in.1", "listed_in.2", "listed_in.3"}),
+				    #"Changed Type5" = Table.TransformColumnTypes(#"Split Column by Delimiter4",{{"listed_in.1", type text}, {"listed_in.2", type text}, {"listed_in.3", type text}}),
+				    #"Renamed Columns4" = Table.RenameColumns(#"Changed Type5",{{"listed_in.1", "listed_in"}}),
+				    #"Removed Columns3" = Table.RemoveColumns(#"Renamed Columns4",{"listed_in.2", "listed_in.3"}),
+				    #"Renamed Columns5" = Table.RenameColumns(#"Removed Columns3",{{"duration.1", "duration"}})
+				in
+				    #"Renamed Columns5"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

@@ -1,0 +1,10 @@
+.ipynb_checkpoints/
+
+# Large datasets
+
+*.parquet
+
+
+# OS files
+.DS_Store
+Thumbs.db
