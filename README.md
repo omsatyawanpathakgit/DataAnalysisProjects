@@ -23,11 +23,11 @@ The main objective of these projects is to demonstrate the complete data analysi
 
 | No. | Project                          | Domain            | Main Tools                                 |
 | --- | -------------------------------- | ----------------- | ------------------------------------------ |
-| 1   | Madhav E-Commerce Sales Analysis | E-Commerce        | Power BI, Excel, DAX                       |
+| 1   | Madhav E-Commerce Sales Analysis | E-Commerce        | Power BI, DAX                       |
 | 2   | Netflix EDA                      | Entertainment     | Python, Excel, SQL, Power BI               |
-| 3   | Telco Customer Churn Analysis    | Telecom           | Python, Pandas, Seaborn, Matplotlib, TCA   |
+| 3   | Telco Customer Churn Analysis    | Telecom           | Python, Pandas, Seaborn, Matplotlib        |
 | 4   | Zomato EDA                       | Food & Restaurant | Python, Pandas, NumPy, Matplotlib, Seaborn |
-| 5   | Atliq HR Presence Analysis       | Human Resources   | Power BI, Excel, DAX                       |
+| 5   | Atliq HR Presence Analysis       | Human Resources   | Power BI, DAX                              |
 
 ---
 
@@ -137,7 +137,6 @@ MADHAV ECOMMERCE STORE EDA/
 ├── FINAL MADHAV ECOMMERCE SALES DASHBOARD.pbix
 ├── guide_madhavEcommerceStore.pdf
 ├── bg.jpg
-└── README.md
 ```
 
 ## Technologies
@@ -145,8 +144,6 @@ MADHAV ECOMMERCE STORE EDA/
 * Microsoft Power BI
 * Power Query
 * DAX
-* Microsoft Excel
-* CSV
 
 ---
 
@@ -319,12 +316,10 @@ NETFLIX EDA/
 * NumPy
 * Matplotlib
 * Seaborn
-* Jupyter Notebook
 * Microsoft Excel
 * Power Query
 * SQL
 * Microsoft Power BI
-* DAX
 
 ---
 
@@ -437,7 +432,6 @@ TELCO CUSTOMER CHURN EDA/
 * NumPy
 * Matplotlib
 * Seaborn
-* Scikit-learn
 * Jupyter Notebook
 
 ---
@@ -776,12 +770,8 @@ codebasics HR PROJECT/
 * NumPy
 * Matplotlib
 * Seaborn
-* Scikit-learn
-* Jupyter Notebook
 
-## Database & Querying
 
-* SQL
 
 ## Spreadsheet Analysis
 
